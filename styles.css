@@ -1,0 +1,578 @@
+/* =========================================================
+   Mi Rincón CV — paleta azul claro a blanco, aire artesanal
+   ========================================================= */
+
+:root{
+  --azul-profundo: #4a7fb5;
+  --azul-medio: #8fbfe0;
+  --azul-claro: #cfe6f7;
+  --azul-niebla: #eaf4fb;
+  --blanco-hueso: #fdfdfb;
+  --tinta: #2e3d4a;
+  --tinta-suave: #5c7182;
+  --hilo-color: #b8d8ee;
+  --sombra: 0 6px 18px rgba(74, 127, 181, 0.14);
+  --radio: 14px;
+  font-size: 16px;
+}
+
+*{ box-sizing: border-box; }
+
+body{
+  margin: 0;
+  font-family: 'Nunito', sans-serif;
+  color: var(--tinta);
+  background:
+    radial-gradient(circle at 15% 0%, var(--azul-claro), transparent 55%),
+    radial-gradient(circle at 85% 10%, var(--azul-medio) 0%, transparent 40%),
+    linear-gradient(180deg, var(--azul-niebla) 0%, var(--blanco-hueso) 65%);
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+/* hilo decorativo cosido arriba/abajo, gesto artesanal sencillo */
+.hilo{
+  height: 10px;
+  background-image: repeating-linear-gradient(
+    90deg, var(--hilo-color) 0 14px, transparent 14px 26px
+  );
+  opacity: .8;
+}
+
+/* ---------------- Pantalla de autenticación ---------------- */
+.pantalla-auth{
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2.2rem 1rem 3rem;
+}
+
+.cabecera-auth{ text-align: center; margin-bottom: 1.4rem; }
+
+.logo{
+  font-family: 'Caveat', cursive;
+  font-size: 3.2rem;
+  font-weight: 700;
+  color: var(--azul-profundo);
+  margin: 0;
+}
+.logo span{ color: var(--tinta); }
+
+.subtitulo{
+  margin: .2rem 0 0;
+  color: var(--tinta-suave);
+  font-size: .98rem;
+}
+
+.tarjeta-auth{ width: 100%; max-width: 420px; }
+
+/* ---------------- Panel estilo monitoreo (tras iniciar sesión) ---------------- */
+.panel-app{
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  min-height: 100vh;
+}
+
+/* --- Barra lateral de herramientas --- */
+.barra-lateral{
+  background: linear-gradient(180deg, #1e3a56, #295b82);
+  color: #eaf4fb;
+  display: flex;
+  flex-direction: column;
+  padding: 1.4rem 1rem;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.marca-lateral{
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .3rem .4rem 1.6rem;
+  border-bottom: 1px solid rgba(255,255,255,.15);
+  margin-bottom: 1.2rem;
+}
+.logo-mini{
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--azul-claro);
+  color: var(--azul-profundo);
+  font-family: 'Caveat', cursive;
+  font-weight: 700;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.texto-marca{ font-family: 'Caveat', cursive; font-size: 1.3rem; }
+.texto-marca em{ font-style: normal; color: var(--azul-claro); }
+
+.nav-lateral{
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+  flex: 1;
+}
+
+.item-nav{
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  color: rgba(234,244,251,.82);
+  font-family: inherit;
+  font-weight: 700;
+  font-size: .92rem;
+  padding: .7rem .8rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background .12s ease, color .12s ease;
+}
+.item-nav:hover{ background: rgba(255,255,255,.08); color: #fff; }
+.item-nav.activo{
+  background: rgba(255,255,255,.14);
+  color: #fff;
+  box-shadow: inset 3px 0 0 var(--azul-claro);
+}
+.icono-nav{ font-size: 1.05rem; width: 1.2em; text-align: center; }
+
+.btn-salir-lateral{
+  background: transparent;
+  border: 1px solid rgba(255,255,255,.25);
+  color: rgba(234,244,251,.85);
+  border-radius: 10px;
+  padding: .6rem .8rem;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: .85rem;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+.btn-salir-lateral:hover{ background: rgba(255,255,255,.1); color: #fff; }
+
+/* --- Zona principal (topbar + contenido) --- */
+.zona-principal{ display: flex; flex-direction: column; min-height: 100vh; }
+
+.barra-superior{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.6rem;
+  background: var(--blanco-hueso);
+  border-bottom: 1px solid var(--azul-claro);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+.barra-superior h2{
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.cuenta-superior{
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  position: relative;
+}
+
+.chip-gmail{
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  background: var(--azul-niebla);
+  border: 1px solid var(--azul-claro);
+  color: var(--azul-profundo);
+  font-size: .78rem;
+  font-weight: 700;
+  padding: .35rem .7rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.punto-sync{
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #2f8f5b;
+  box-shadow: 0 0 0 3px rgba(47,143,91,.18);
+  flex-shrink: 0;
+}
+.punto-sync-apagado{ background: #c98a3a; box-shadow: 0 0 0 3px rgba(201,138,58,.18); }
+
+.avatar-cuenta{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, var(--azul-medio), var(--azul-profundo));
+  color: #fff;
+  font-weight: 800;
+  font-size: .85rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.menu-cuenta{
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  background: #fff;
+  border: 1px solid var(--azul-claro);
+  border-radius: 12px;
+  box-shadow: var(--sombra);
+  padding: .9rem 1rem;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+  z-index: 10;
+}
+.menu-cuenta-nombre{ margin: 0; font-weight: 800; color: var(--tinta); }
+.menu-cuenta-email{ margin: 0 0 .5rem; font-size: .82rem; color: var(--tinta-suave); word-break: break-all; }
+
+.contenedor-google-btn{ display: flex; align-items: center; }
+.aviso-google-config{
+  font-size: .72rem;
+  color: #b5545a;
+  max-width: 160px;
+  line-height: 1.2;
+}
+
+.menu-cuenta-google{
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  background: var(--azul-niebla);
+  border: 1px solid var(--azul-claro);
+  border-radius: 10px;
+  padding: .5rem .6rem;
+  margin-bottom: .5rem;
+}
+.menu-cuenta-google-foto{
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: var(--azul-claro);
+}
+.menu-cuenta-google-nombre{ margin: 0; font-size: .82rem; font-weight: 800; color: var(--tinta); }
+.menu-cuenta-google-email{ margin: 0; font-size: .76rem; color: var(--tinta-suave); word-break: break-all; }
+
+/* --- Contenido de las vistas --- */
+.contenido-vistas{
+  flex: 1;
+  max-width: 760px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1.6rem 1.4rem 3rem;
+}
+
+@media (max-width: 780px){
+  .panel-app{ grid-template-columns: 1fr; }
+  .barra-lateral{
+    position: static;
+    height: auto;
+    flex-direction: row;
+    align-items: center;
+    overflow-x: auto;
+    padding: .8rem .9rem;
+  }
+  .marca-lateral{ border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .texto-marca{ display: none; }
+  .nav-lateral{ flex-direction: row; flex: none; }
+  .item-nav span:last-child{ display: none; }
+  .btn-salir-lateral{ margin-top: 0; white-space: nowrap; }
+  .chip-gmail .chip-texto{ display: none; }
+}
+
+.tarjeta{
+  background: var(--blanco-hueso);
+  border: 1px solid var(--azul-claro);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: 1.6rem 1.6rem 1.8rem;
+  margin-bottom: 1.6rem;
+}
+
+h2{
+  font-family: 'Caveat', cursive;
+  font-size: 1.9rem;
+  color: var(--azul-profundo);
+  margin-top: 0;
+}
+h3{
+  font-size: 1.05rem;
+  color: var(--tinta);
+  border-top: 1px dashed var(--azul-claro);
+  padding-top: 1rem;
+}
+.ayuda{ color: var(--tinta-suave); font-size: .9rem; margin-top: -.4rem;}
+
+/* ---------------- Formularios ---------------- */
+.formulario{ display: flex; flex-direction: column; gap: .9rem; }
+
+.formulario-rejilla{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .9rem;
+}
+.formulario-rejilla .span-2{ grid-column: 1 / -1; }
+
+label{
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+  font-size: .88rem;
+  font-weight: 700;
+  color: var(--tinta-suave);
+}
+
+input, textarea{
+  font-family: inherit;
+  font-size: .96rem;
+  padding: .6rem .7rem;
+  border: 1.5px solid var(--azul-claro);
+  border-radius: 9px;
+  background: #fff;
+  color: var(--tinta);
+  resize: vertical;
+}
+input:focus, textarea:focus{
+  outline: none;
+  border-color: var(--azul-profundo);
+  box-shadow: 0 0 0 3px rgba(74,127,181,.15);
+}
+
+fieldset{
+  border: 1px dashed var(--azul-claro);
+  border-radius: 12px;
+  padding: 1rem 1rem 1.2rem;
+  margin: 0;
+}
+legend{
+  font-family: 'Caveat', cursive;
+  font-size: 1.3rem;
+  color: var(--azul-profundo);
+  padding: 0 .4rem;
+}
+
+/* ---------------- Botones ---------------- */
+.btn{
+  font-family: inherit;
+  font-weight: 800;
+  font-size: .92rem;
+  padding: .65rem 1.3rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+}
+.btn:hover{ transform: translateY(-1px); }
+.btn:active{ transform: translateY(0); }
+
+.btn-principal{
+  background: linear-gradient(135deg, var(--azul-medio), var(--azul-profundo));
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(74,127,181,.35);
+}
+.btn-secundario{
+  background: var(--azul-niebla);
+  color: var(--azul-profundo);
+  border: 1.5px solid var(--azul-claro);
+  align-self: flex-start;
+}
+.btn-fantasma{
+  background: transparent;
+  color: var(--azul-profundo);
+  border: 1.5px solid var(--azul-medio);
+}
+.btn-quitar{
+  background: none;
+  border: none;
+  color: #b5545a;
+  font-weight: 700;
+  font-size: .82rem;
+  cursor: pointer;
+  margin-top: .3rem;
+}
+
+/* ---------------- Autenticación ---------------- */
+.pestañas-auth, .pestañas-app{
+  display: flex;
+  gap: .5rem;
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+}
+.pestaña-auth, .pestaña-app{
+  font-family: inherit;
+  font-weight: 800;
+  font-size: .88rem;
+  padding: .55rem 1.1rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--azul-claro);
+  background: #fff;
+  color: var(--tinta-suave);
+  cursor: pointer;
+}
+.pestaña-auth.activa, .pestaña-app.activa{
+  background: var(--azul-profundo);
+  border-color: var(--azul-profundo);
+  color: #fff;
+}
+
+.nota-privacidad{
+  font-size: .78rem;
+  color: var(--tinta-suave);
+  border-top: 1px dashed var(--azul-claro);
+  padding-top: .8rem;
+  margin-top: .4rem;
+}
+
+.mensaje{
+  font-size: .86rem;
+  min-height: 1.1em;
+  margin: 0;
+}
+.mensaje.error{ color: #b5545a; }
+.mensaje.ok{ color: #2f8f5b; }
+
+.enlace-cambio{
+  text-align: center;
+  font-size: .9rem;
+  color: var(--tinta-suave);
+  margin: .2rem 0 0;
+}
+.btn-enlace{
+  background: none;
+  border: none;
+  padding: 0;
+  margin-left: .25rem;
+  font-family: inherit;
+  font-weight: 800;
+  font-size: .9rem;
+  color: var(--azul-profundo);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.btn-enlace:hover{ color: var(--azul-medio); }
+
+/* ---------------- Subida de archivos ---------------- */
+.zona-subida{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.6rem;
+  border: 2px dashed var(--azul-medio);
+  border-radius: var(--radio);
+  background: var(--azul-niebla);
+  color: var(--azul-profundo);
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+}
+.zona-subida input{ display: none; }
+
+.lista-archivos{
+  list-style: none;
+  padding: 0;
+  margin: .6rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+}
+.lista-archivos li{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--azul-niebla);
+  border: 1px solid var(--azul-claro);
+  border-radius: 10px;
+  padding: .6rem .9rem;
+  font-size: .88rem;
+  gap: .6rem;
+}
+.lista-archivos li .acciones-archivo{
+  display: flex;
+  gap: .6rem;
+  flex-shrink: 0;
+}
+.lista-archivos a{ color: var(--azul-profundo); font-weight: 700; text-decoration: none; }
+.lista-archivos button{
+  background: none; border: none; color: #b5545a; cursor: pointer; font-weight: 700;
+}
+
+/* ---------------- Entradas dinámicas (experiencia/educación) ---------------- */
+.lista-dinamica{ display: flex; flex-direction: column; gap: 1rem; }
+.entrada-dinamica{
+  background: var(--azul-niebla);
+  border-radius: 10px;
+  padding: .9rem;
+  border: 1px solid var(--azul-claro);
+}
+
+.acciones-cv{
+  display: flex;
+  gap: .8rem;
+  flex-wrap: wrap;
+  padding-top: .6rem;
+}
+
+.etiqueta-foto{ margin-top: .9rem; }
+.zona-foto{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.vista-previa-foto{
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  border: 2px dashed var(--azul-medio);
+  background: var(--azul-niebla);
+  color: var(--tinta-suave);
+  font-size: .7rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.vista-previa-foto img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.controles-foto{
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+  align-items: flex-start;
+}
+.btn-pequeño{
+  padding: .35rem .8rem;
+  font-size: .78rem;
+}
+
+/* ---------------- Pie ---------------- */
+.pie{
+  text-align: center;
+  font-family: 'Caveat', cursive;
+  font-size: 1.2rem;
+  color: var(--azul-medio);
+  padding-bottom: 2rem;
+}
+
+@media (max-width: 560px){
+  .formulario-rejilla{ grid-template-columns: 1fr; }
+  .logo{ font-size: 2.5rem; }
+}

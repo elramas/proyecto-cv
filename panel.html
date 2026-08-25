@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Rincón CV · panel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+
+<!-- ===================== PANEL — estilo panel de monitoreo ===================== -->
+<div id="panel-app" class="panel-app">
+
+  <aside class="barra-lateral">
+    <div class="marca-lateral">
+      <span class="logo-mini">MR</span>
+      <span class="texto-marca">Mi Rincón <em>CV</em></span>
+    </div>
+
+    <nav class="nav-lateral">
+      <button class="item-nav activo" data-vista="perfil">
+        <span class="icono-nav">◐</span><span>Perfil</span>
+      </button>
+      <button class="item-nav" data-vista="archivos">
+        <span class="icono-nav">📎</span><span>Mis CV</span>
+      </button>
+      <button class="item-nav" data-vista="crear">
+        <span class="icono-nav">✎</span><span>Crear CV</span>
+      </button>
+    </nav>
+
+    <button id="btn-logout" class="btn-salir-lateral">⎋ Cerrar sesión</button>
+  </aside>
+
+  <div class="zona-principal">
+
+    <header class="barra-superior">
+      <h2 id="titulo-vista-actual">Perfil</h2>
+
+      <div class="cuenta-superior">
+        <span class="chip-gmail" id="chip-gmail" title="Vincula tu cuenta real de Google">
+          <span class="punto-sync punto-sync-apagado"></span><span class="chip-texto">Sin vincular</span>
+        </span>
+        <div id="contenedor-google-btn" class="contenedor-google-btn"></div>
+        <button class="avatar-cuenta" id="avatar-cuenta" title="Tu cuenta">--</button>
+        <div class="menu-cuenta" id="menu-cuenta" hidden>
+          <p class="menu-cuenta-nombre" id="menu-cuenta-nombre"></p>
+          <p class="menu-cuenta-email" id="menu-cuenta-email"></p>
+          <div class="menu-cuenta-google" id="menu-cuenta-google" hidden>
+            <img id="menu-cuenta-google-foto" class="menu-cuenta-google-foto" alt="">
+            <div>
+              <p class="menu-cuenta-google-nombre" id="menu-cuenta-google-nombre"></p>
+              <p class="menu-cuenta-google-email" id="menu-cuenta-google-email"></p>
+            </div>
+          </div>
+          <button id="btn-desvincular-google" class="btn btn-fantasma btn-pequeño" hidden>Desvincular Google</button>
+          <button id="btn-logout-menu" class="btn btn-fantasma btn-pequeño">Cerrar sesión</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="contenido-vistas">
+
+    <!-- ---- Vista: Perfil ---- -->
+    <div id="vista-perfil" class="vista tarjeta">
+      <h2>Datos de tu perfil</h2>
+      <form id="form-perfil" class="formulario formulario-rejilla">
+        <label>Nombre completo
+          <input type="text" id="perfil-nombre">
+        </label>
+        <label>Correo electrónico
+          <input type="email" id="perfil-email">
+        </label>
+        <label>Teléfono
+          <input type="tel" id="perfil-telefono">
+        </label>
+        <label>Ciudad
+          <input type="text" id="perfil-ciudad">
+        </label>
+        <label class="span-2">Sobre ti (breve)
+          <textarea id="perfil-bio" rows="3"></textarea>
+        </label>
+        <button type="submit" class="btn btn-principal span-2">Guardar perfil</button>
+      </form>
+      <p class="mensaje" id="perfil-mensaje"></p>
+    </div>
+
+    <!-- ---- Vista: Archivos subidos ---- -->
+    <div id="vista-archivos" class="vista tarjeta" hidden>
+      <h2>Sube tu CV (Europeo o Vitae)</h2>
+      <p class="ayuda">Admite PDF, DOC, DOCX o ODT. Se guarda en tu navegador junto a tu perfil.</p>
+      <label class="zona-subida" for="input-cv">
+        <input type="file" id="input-cv" accept=".pdf,.doc,.docx,.odt">
+        <span>📎 Elige un archivo o arrástralo aquí</span>
+      </label>
+      <p class="mensaje" id="archivo-mensaje"></p>
+      <h3>Archivos guardados</h3>
+      <ul id="lista-archivos" class="lista-archivos"></ul>
+    </div>
+
+    <!-- ---- Vista: Crear CV ---- -->
+    <div id="vista-crear" class="vista tarjeta" hidden>
+      <h2>Crea tu CV a mano</h2>
+      <form id="form-cv" class="formulario">
+
+        <fieldset>
+          <legend>Datos personales</legend>
+          <div class="formulario-rejilla">
+            <label>Nombre completo
+              <input type="text" id="cv-nombre">
+            </label>
+            <label>Puesto / título profesional
+              <input type="text" id="cv-puesto">
+            </label>
+            <label>Correo electrónico
+              <input type="email" id="cv-email">
+            </label>
+            <label>Teléfono
+              <input type="tel" id="cv-telefono">
+            </label>
+            <label>Ciudad / País
+              <input type="text" id="cv-ubicacion">
+            </label>
+            <label>LinkedIn / web (opcional)
+              <input type="text" id="cv-web">
+            </label>
+            <label>Fecha de nacimiento (opcional)
+              <input type="text" id="cv-nacimiento" placeholder="ej. 15/10/1995">
+            </label>
+          </div>
+          <label class="etiqueta-foto">Foto de perfil (opcional, se verá en el PDF)
+            <div class="zona-foto">
+              <div class="vista-previa-foto" id="vista-previa-foto">Sin foto</div>
+              <div class="controles-foto">
+                <input type="file" id="cv-foto" accept="image/*">
+                <button type="button" id="btn-quitar-foto" class="btn btn-fantasma btn-pequeño" hidden>Quitar foto</button>
+              </div>
+            </div>
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Perfil profesional</legend>
+          <label>Resumen breve
+            <textarea id="cv-resumen" rows="3"></textarea>
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Experiencia laboral</legend>
+          <div id="lista-experiencia" class="lista-dinamica"></div>
+          <button type="button" class="btn btn-secundario" id="btn-add-experiencia">+ Añadir experiencia</button>
+        </fieldset>
+
+        <fieldset>
+          <legend>Educación</legend>
+          <div id="lista-educacion" class="lista-dinamica"></div>
+          <button type="button" class="btn btn-secundario" id="btn-add-educacion">+ Añadir estudios</button>
+        </fieldset>
+
+        <fieldset>
+          <legend>Habilidades e idiomas</legend>
+          <label>Habilidades (separadas por comas)
+            <input type="text" id="cv-habilidades" placeholder="Excel, trabajo en equipo, Photoshop…">
+          </label>
+          <label>Idiomas (separados por comas)
+            <input type="text" id="cv-idiomas" placeholder="Español (nativo), Inglés (B2)…">
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Más información</legend>
+          <label>Datos extra, uno por línea
+            <textarea id="cv-mas-info" rows="3" placeholder="Carné de conducir&#10;Vehículo propio&#10;Disponibilidad total"></textarea>
+          </label>
+        </fieldset>
+
+        <div class="acciones-cv">
+          <button type="button" id="btn-guardar-borrador" class="btn btn-fantasma">Guardar borrador</button>
+          <button type="button" id="btn-generar-pdf" class="btn btn-principal">Descargar como PDF</button>
+        </div>
+        <p class="mensaje" id="cv-mensaje"></p>
+      </form>
+    </div>
+
+    </main>
+  </div>
+</div>
+
+<template id="plantilla-experiencia">
+  <div class="entrada-dinamica">
+    <div class="formulario-rejilla">
+      <label>Puesto
+        <input type="text" class="exp-puesto">
+      </label>
+      <label>Empresa
+        <input type="text" class="exp-empresa">
+      </label>
+      <label>Fecha inicio
+        <input type="text" class="exp-inicio" placeholder="ej. 2021">
+      </label>
+      <label>Fecha fin
+        <input type="text" class="exp-fin" placeholder="ej. Actualidad">
+      </label>
+      <label class="span-2">Funciones / logros
+        <textarea class="exp-descripcion" rows="2"></textarea>
+      </label>
+    </div>
+    <button type="button" class="btn-quitar">Quitar</button>
+  </div>
+</template>
+
+<template id="plantilla-educacion">
+  <div class="entrada-dinamica">
+    <div class="formulario-rejilla">
+      <label>Título / estudios
+        <input type="text" class="edu-titulo">
+      </label>
+      <label>Centro
+        <input type="text" class="edu-centro">
+      </label>
+      <label>Fecha inicio
+        <input type="text" class="edu-inicio" placeholder="ej. 2018">
+      </label>
+      <label>Fecha fin
+        <input type="text" class="edu-fin" placeholder="ej. 2022">
+      </label>
+    </div>
+    <button type="button" class="btn-quitar">Quitar</button>
+  </div>
+</template>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+/* =========================================================
+   Mi Rincón CV — panel de monitoreo (tras iniciar sesión)
+   Si no hay sesión activa, esta página redirige a index.html.
+   ========================================================= */
+
+const CLAVE_USUARIOS = 'cvartesano_usuarios';
+const CLAVE_SESION = 'cvartesano_sesion';
+
+/* ---------- Vinculación real con Google (Google Identity Services) ----------
+   1) Ve a https://console.cloud.google.com/apis/credentials
+   2) Crea un "ID de cliente de OAuth" de tipo "Aplicación web".
+   3) En "Orígenes de JavaScript autorizados" añade la URL exacta donde
+      sirvas esta carpeta (por ejemplo http://localhost:5500 o tu dominio
+      real). OJO: esto NO funciona abriendo el archivo con doble clic
+      (file://); tiene que servirse por http:// o https://.
+   4) Pega aquí el "Client ID" que te da Google (termina en
+      .apps.googleusercontent.com). */
+const GOOGLE_CLIENT_ID = 'TU_CLIENT_ID_AQUI.apps.googleusercontent.com';
+
+/* ---------- almacenamiento ---------- */
+function leerUsuarios(){
+  try{ return JSON.parse(localStorage.getItem(CLAVE_USUARIOS)) || {}; }
+  catch(e){ return {}; }
+}
+function guardarUsuarios(usuarios){
+  localStorage.setItem(CLAVE_USUARIOS, JSON.stringify(usuarios));
+}
+function usuarioActual(){
+  return localStorage.getItem(CLAVE_SESION);
+}
+function cerrarSesionStorage(){
+  localStorage.removeItem(CLAVE_SESION);
+}
+
+function mostrarMensaje(el, texto, tipo){
+  el.textContent = texto;
+  el.className = 'mensaje' + (tipo ? ' ' + tipo : '');
+}
+function escaparHTML(texto){
+  const div = document.createElement('div');
+  div.textContent = texto;
+  return div.innerHTML;
+}
+
+/* ---------- guardia de sesión: sin sesión, fuera del panel ---------- */
+const USUARIOS_INICIALES = leerUsuarios();
+const USUARIO_SESION = usuarioActual();
+if(!USUARIO_SESION || !USUARIOS_INICIALES[USUARIO_SESION]){
+  window.location.href = 'index.html';
+}
+
+/* ---------- elementos ---------- */
+const elTituloVista = document.getElementById('titulo-vista-actual');
+
+const TITULOS_VISTA = {
+  perfil: 'Perfil',
+  archivos: 'Mis CV',
+  crear: 'Crear CV'
+};
+
+/* ---------- logout ---------- */
+function salir(){
+  cerrarSesionStorage();
+  window.location.href = 'index.html';
+}
+document.getElementById('btn-logout').addEventListener('click', salir);
+document.getElementById('btn-logout-menu').addEventListener('click', salir);
+
+/* ---------- cuenta superior (avatar + chip "Gmail") ---------- */
+function inicialesDe(texto){
+  if(!texto) return '--';
+  const limpio = texto.trim();
+  const partes = limpio.split(/\s+/).filter(Boolean);
+  if(partes.length === 1){
+    return partes[0].slice(0, 2).toUpperCase();
+  }
+  return (partes[0][0] + partes[1][0]).toUpperCase();
+}
+
+function pintarCuentaSuperior(registro){
+  const nombre = registro.nombreMostrado || registro.perfil?.nombre || '';
+  const email = registro.perfil?.email || '';
+
+  document.getElementById('avatar-cuenta').textContent = inicialesDe(nombre);
+  document.getElementById('menu-cuenta-nombre').textContent = nombre || 'Sin nombre';
+  document.getElementById('menu-cuenta-email').textContent = email || 'Sin correo asociado';
+
+  pintarEstadoGoogle(registro);
+}
+
+/* ---------- Google: decodificar el token que devuelve Google ----------
+   El token (JWT) confirma que Google ya verificó ese correo; no hace
+   falta enviar ningún email nosotros mismos. */
+function decodificarJWT(token){
+  const payloadBase64 = token.split('.')[1];
+  const normalizado = payloadBase64.replace(/-/g, '+').replace(/_/g, '/');
+  const json = decodeURIComponent(
+    atob(normalizado)
+      .split('')
+      .map(c => '%' + c.charCodeAt(0).toString(16).padStart(2, '0'))
+      .join('')
+  );
+  return JSON.parse(json);
+}
+
+function manejarCredencialGoogle(respuesta){
+  const datos = decodificarJWT(respuesta.credential);
+  const usuario = usuarioActual();
+  const usuarios = leerUsuarios();
+  const registro = usuarios[usuario];
+  if(!registro) return;
+
+  registro.google = {
+    email: datos.email,
+    nombre: datos.name || '',
+    foto: datos.picture || '',
+    verificado: !!datos.email_verified,
+    vinculadoISO: new Date().toISOString()
+  };
+  guardarUsuarios(usuarios);
+  pintarEstadoGoogle(registro);
+  mostrarMensaje(document.getElementById('perfil-mensaje'), 'Cuenta de Google vinculada: ' + datos.email, 'ok');
+}
+
+function desvincularGoogle(){
+  const usuario = usuarioActual();
+  const usuarios = leerUsuarios();
+  const registro = usuarios[usuario];
+  if(!registro) return;
+  delete registro.google;
+  guardarUsuarios(usuarios);
+  pintarEstadoGoogle(registro);
+}
+document.getElementById('btn-desvincular-google').addEventListener('click', desvincularGoogle);
+
+function pintarEstadoGoogle(registro){
+  const chip = document.getElementById('chip-gmail');
+  const contenedorBoton = document.getElementById('contenedor-google-btn');
+  const bloqueMenu = document.getElementById('menu-cuenta-google');
+  const btnDesvincular = document.getElementById('btn-desvincular-google');
+
+  if(registro.google && registro.google.email){
+    chip.title = 'Cuenta de Google vinculada y verificada';
+    chip.innerHTML = `<span class="punto-sync"></span><span class="chip-texto">${escaparHTML(registro.google.email)}</span>`;
+    contenedorBoton.hidden = true;
+    contenedorBoton.innerHTML = '';
+
+    bloqueMenu.hidden = false;
+    document.getElementById('menu-cuenta-google-foto').src = registro.google.foto || '';
+    document.getElementById('menu-cuenta-google-nombre').textContent = registro.google.nombre || '';
+    document.getElementById('menu-cuenta-google-email').textContent = registro.google.email;
+    btnDesvincular.hidden = false;
+  }else{
+    chip.title = 'Vincula tu cuenta real de Google';
+    chip.innerHTML = `<span class="punto-sync punto-sync-apagado"></span><span class="chip-texto">Sin vincular</span>`;
+    bloqueMenu.hidden = true;
+    btnDesvincular.hidden = true;
+    contenedorBoton.hidden = false;
+    renderizarBotonGoogle();
+  }
+}
+
+function renderizarBotonGoogle(){
+  const contenedor = document.getElementById('contenedor-google-btn');
+  if(!contenedor || !window.google || !google.accounts || !google.accounts.id) return;
+  contenedor.innerHTML = '';
+  google.accounts.id.renderButton(contenedor, {
+    type: 'standard',
+    theme: 'outline',
+    size: 'medium',
+    shape: 'pill',
+    text: 'signin_with',
+    logo_alignment: 'left'
+  });
+}
+
+function iniciarGoogleIdentity(){
+  if(!window.google || !google.accounts || !google.accounts.id) return;
+  if(GOOGLE_CLIENT_ID.includes('TU_CLIENT_ID_AQUI')){
+    document.getElementById('contenedor-google-btn').innerHTML =
+      '<span class="aviso-google-config">Falta configurar GOOGLE_CLIENT_ID en panel.html</span>';
+    return;
+  }
+  google.accounts.id.initialize({
+    client_id: GOOGLE_CLIENT_ID,
+    callback: manejarCredencialGoogle,
+    auto_select: false
+  });
+  const usuario = usuarioActual();
+  const usuarios = leerUsuarios();
+  const registro = usuarios[usuario];
+  if(registro && !registro.google){
+    renderizarBotonGoogle();
+  }
+}
+
+document.getElementById('avatar-cuenta').addEventListener('click', ()=>{
+  const menu = document.getElementById('menu-cuenta');
+  menu.hidden = !menu.hidden;
+});
+document.addEventListener('click', (e)=>{
+  const menu = document.getElementById('menu-cuenta');
+  const avatar = document.getElementById('avatar-cuenta');
+  if(!menu.hidden && !menu.contains(e.target) && e.target !== avatar){
+    menu.hidden = true;
+  }
+});
+
+/* ---------- navegación de la barra lateral ---------- */
+document.querySelectorAll('.item-nav').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.item-nav').forEach(b=>b.classList.remove('activo'));
+    btn.classList.add('activo');
+    document.querySelectorAll('.vista').forEach(v=>v.hidden = true);
+    document.getElementById('vista-' + btn.dataset.vista).hidden = false;
+    elTituloVista.textContent = TITULOS_VISTA[btn.dataset.vista] || '';
+  });
+});
+
+/* ---------- perfil ---------- */
+function cargarPerfilEnFormulario(registro){
+  const p = registro.perfil || {};
+  document.getElementById('perfil-nombre').value = p.nombre || '';
+  document.getElementById('perfil-email').value = p.email || '';
+  document.getElementById('perfil-telefono').value = p.telefono || '';
+  document.getElementById('perfil-ciudad').value = p.ciudad || '';
+  document.getElementById('perfil-bio').value = p.bio || '';
+}
+
+document.getElementById('form-perfil').addEventListener('submit', (e)=>{
+  e.preventDefault();
+  const usuario = usuarioActual();
+  const usuarios = leerUsuarios();
+  const registro = usuarios[usuario];
+  registro.perfil = {
+    nombre: document.getElementById('perfil-nombre').value.trim(),
+    email: document.getElementById('perfil-email').value.trim(),
+    telefono: document.getElementById('perfil-telefono').value.trim(),
+    ciudad: document.getElementById('perfil-ciudad').value.trim(),
+    bio: document.getElementById('perfil-bio').value.trim()
+  };
+  registro.nombreMostrado = registro.perfil.nombre || registro.nombreMostrado;
+  guardarUsuarios(usuarios);
+  pintarCuentaSuperior(registro);
+  mostrarMensaje(document.getElementById('perfil-mensaje'), 'Perfil guardado.', 'ok');
+});
+
+/* ---------- subida de CV (archivo) ---------- */
+document.getElementById('input-cv').addEventListener('change', (e)=>{
+  const archivo = e.target.files[0];
+  const msg = document.getElementById('archivo-mensaje');
+  if(!archivo) return;
+
+  if(archivo.size > 4 * 1024 * 1024){
+    mostrarMensaje(msg, 'El archivo pesa demasiado para guardarlo en el navegador (máx. 4 MB).', 'error');
+    e.target.value = '';
+    return;
+  }
+
+  const lector = new FileReader();
+  lector.onload = () => {
+    const usuario = usuarioActual();
+    const usuarios = leerUsuarios();
+    const registro = usuarios[usuario];
+    registro.archivos.push({
+      id: 'f' + Date.now(),
+      nombre: archivo.name,
+      tipo: archivo.type,
+      tamaño: archivo.size,
+      fechaISO: new Date().toISOString(),
+      dataUrl: lector.result
+    });
+    guardarUsuarios(usuarios);
+    renderizarArchivos(registro);
+    mostrarMensaje(msg, 'Archivo guardado en tu perfil.', 'ok');
+    e.target.value = '';
+  };
+  lector.readAsDataURL(archivo);
+});
+
+function renderizarArchivos(registro){
+  const lista = document.getElementById('lista-archivos');
+  lista.innerHTML = '';
+  if(!registro.archivos || registro.archivos.length === 0){
+    lista.innerHTML = '<li>Todavía no has subido ningún CV.</li>';
+    return;
+  }
+  registro.archivos.forEach(archivo=>{
+    const li = document.createElement('li');
+    const tamañoKB = Math.round(archivo.tamaño/1024);
+    li.innerHTML = `
+      <span>📄 ${escaparHTML(archivo.nombre)} <small>(${tamañoKB} KB)</small></span>
+      <span class="acciones-archivo">
+        <a href="${archivo.dataUrl}" download="${escaparHTML(archivo.nombre)}">Descargar</a>
+        <button type="button" data-id="${archivo.id}" class="btn-borrar-archivo">Eliminar</button>
+      </span>`;
+    lista.appendChild(li);
+  });
+
+  lista.querySelectorAll('.btn-borrar-archivo').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const usuario = usuarioActual();
+      const usuarios = leerUsuarios();
+      const reg = usuarios[usuario];
+      reg.archivos = reg.archivos.filter(a => a.id !== btn.dataset.id);
+      guardarUsuarios(usuarios);
+      renderizarArchivos(reg);
+    });
+  });
+}
+
+/* ---------- CV builder: foto de perfil ---------- */
+let fotoCVDataUrl = null;
+
+function mostrarVistaPreviaFoto(dataUrl){
+  const contenedor = document.getElementById('vista-previa-foto');
+  const btnQuitar = document.getElementById('btn-quitar-foto');
+  if(dataUrl){
+    contenedor.innerHTML = `<img src="${dataUrl}" alt="Vista previa de la foto">`;
+    btnQuitar.hidden = false;
+  }else{
+    contenedor.innerHTML = 'Sin foto';
+    btnQuitar.hidden = true;
+  }
+}
+
+document.getElementById('cv-foto').addEventListener('change', (e)=>{
+  const archivo = e.target.files[0];
+  const msg = document.getElementById('cv-mensaje');
+  if(!archivo) return;
+  if(archivo.size > 2 * 1024 * 1024){
+    mostrarMensaje(msg, 'La foto pesa demasiado (máx. 2 MB). Prueba con una más ligera.', 'error');
+    e.target.value = '';
+    return;
+  }
+  const lector = new FileReader();
+  lector.onload = () => {
+    fotoCVDataUrl = lector.result;
+    mostrarVistaPreviaFoto(fotoCVDataUrl);
+  };
+  lector.readAsDataURL(archivo);
+});
+
+document.getElementById('btn-quitar-foto').addEventListener('click', ()=>{
+  fotoCVDataUrl = null;
+  document.getElementById('cv-foto').value = '';
+  mostrarVistaPreviaFoto(null);
+});
+
+/* ---------- CV builder: entradas dinámicas ---------- */
+function añadirEntrada(idContenedor, idPlantilla){
+  const plantilla = document.getElementById(idPlantilla);
+  const clon = plantilla.content.cloneNode(true);
+  const contenedor = document.getElementById(idContenedor);
+  contenedor.appendChild(clon);
+  contenedor.lastElementChild.querySelector('.btn-quitar')
+    .addEventListener('click', (e)=> e.target.closest('.entrada-dinamica').remove());
+}
+
+document.getElementById('btn-add-experiencia').addEventListener('click', ()=>{
+  añadirEntrada('lista-experiencia', 'plantilla-experiencia');
+});
+document.getElementById('btn-add-educacion').addEventListener('click', ()=>{
+  añadirEntrada('lista-educacion', 'plantilla-educacion');
+});
+
+/* ---------- recopilar / cargar datos del formulario de CV ---------- */
+function recopilarDatosCV(){
+  const experiencias = [...document.querySelectorAll('#lista-experiencia .entrada-dinamica')].map(entrada=>({
+    puesto: entrada.querySelector('.exp-puesto').value.trim(),
+    empresa: entrada.querySelector('.exp-empresa').value.trim(),
+    inicio: entrada.querySelector('.exp-inicio').value.trim(),
+    fin: entrada.querySelector('.exp-fin').value.trim(),
+    descripcion: entrada.querySelector('.exp-descripcion').value.trim()
+  }));
+  const educaciones = [...document.querySelectorAll('#lista-educacion .entrada-dinamica')].map(entrada=>({
+    titulo: entrada.querySelector('.edu-titulo').value.trim(),
+    centro: entrada.querySelector('.edu-centro').value.trim(),
+    inicio: entrada.querySelector('.edu-inicio').value.trim(),
+    fin: entrada.querySelector('.edu-fin').value.trim()
+  }));
+
+  return {
+    nombre: document.getElementById('cv-nombre').value.trim(),
+    puesto: document.getElementById('cv-puesto').value.trim(),
+    email: document.getElementById('cv-email').value.trim(),
+    telefono: document.getElementById('cv-telefono').value.trim(),
+    ubicacion: document.getElementById('cv-ubicacion').value.trim(),
+    web: document.getElementById('cv-web').value.trim(),
+    nacimiento: document.getElementById('cv-nacimiento').value.trim(),
+    foto: fotoCVDataUrl,
+    resumen: document.getElementById('cv-resumen').value.trim(),
+    experiencias,
+    educaciones,
+    habilidades: document.getElementById('cv-habilidades').value.trim(),
+    idiomas: document.getElementById('cv-idiomas').value.trim(),
+    masInfo: document.getElementById('cv-mas-info').value.trim()
+  };
+}
+
+function cargarBorradorCV(registro){
+  // limpiar dinámicos
+  document.getElementById('lista-experiencia').innerHTML = '';
+  document.getElementById('lista-educacion').innerHTML = '';
+
+  const d = registro.borradorCV;
+  if(!d){
+    // por defecto, precargar con el nombre/email del perfil y una entrada vacía de cada
+    document.getElementById('cv-nombre').value = registro.perfil?.nombre || '';
+    document.getElementById('cv-email').value = registro.perfil?.email || '';
+    document.getElementById('cv-telefono').value = registro.perfil?.telefono || '';
+    document.getElementById('cv-ubicacion').value = registro.perfil?.ciudad || '';
+    document.getElementById('cv-nacimiento').value = '';
+    document.getElementById('cv-mas-info').value = '';
+    fotoCVDataUrl = null;
+    mostrarVistaPreviaFoto(null);
+    añadirEntrada('lista-experiencia', 'plantilla-experiencia');
+    añadirEntrada('lista-educacion', 'plantilla-educacion');
+    return;
+  }
+
+  document.getElementById('cv-nombre').value = d.nombre || '';
+  document.getElementById('cv-puesto').value = d.puesto || '';
+  document.getElementById('cv-email').value = d.email || '';
+  document.getElementById('cv-telefono').value = d.telefono || '';
+  document.getElementById('cv-ubicacion').value = d.ubicacion || '';
+  document.getElementById('cv-web').value = d.web || '';
+  document.getElementById('cv-nacimiento').value = d.nacimiento || '';
+  document.getElementById('cv-resumen').value = d.resumen || '';
+  document.getElementById('cv-habilidades').value = d.habilidades || '';
+  document.getElementById('cv-idiomas').value = d.idiomas || '';
+  document.getElementById('cv-mas-info').value = d.masInfo || '';
+  fotoCVDataUrl = d.foto || null;
+  mostrarVistaPreviaFoto(fotoCVDataUrl);
+
+  (d.experiencias && d.experiencias.length ? d.experiencias : [{}]).forEach(exp=>{
+    añadirEntrada('lista-experiencia', 'plantilla-experiencia');
+    const ultima = document.querySelector('#lista-experiencia .entrada-dinamica:last-child');
+    ultima.querySelector('.exp-puesto').value = exp.puesto || '';
+    ultima.querySelector('.exp-empresa').value = exp.empresa || '';
+    ultima.querySelector('.exp-inicio').value = exp.inicio || '';
+    ultima.querySelector('.exp-fin').value = exp.fin || '';
+    ultima.querySelector('.exp-descripcion').value = exp.descripcion || '';
+  });
+
+  (d.educaciones && d.educaciones.length ? d.educaciones : [{}]).forEach(edu=>{
+    añadirEntrada('lista-educacion', 'plantilla-educacion');
+    const ultima = document.querySelector('#lista-educacion .entrada-dinamica:last-child');
+    ultima.querySelector('.edu-titulo').value = edu.titulo || '';
+    ultima.querySelector('.edu-centro').value = edu.centro || '';
+    ultima.querySelector('.edu-inicio').value = edu.inicio || '';
+    ultima.querySelector('.edu-fin').value = edu.fin || '';
+  });
+}
+
+document.getElementById('btn-guardar-borrador').addEventListener('click', ()=>{
+  const usuario = usuarioActual();
+  const usuarios = leerUsuarios();
+  const registro = usuarios[usuario];
+  registro.borradorCV = recopilarDatosCV();
+  guardarUsuarios(usuarios);
+  mostrarMensaje(document.getElementById('cv-mensaje'), 'Borrador guardado en tu perfil.', 'ok');
+});
+
+/* ---------- generación de PDF ---------- */
+document.getElementById('btn-generar-pdf').addEventListener('click', ()=>{
+  const datos = recopilarDatosCV();
+  const msg = document.getElementById('cv-mensaje');
+
+  if(!datos.nombre){
+    mostrarMensaje(msg, 'Añade al menos tu nombre antes de generar el PDF.', 'error');
+    return;
+  }
+
+  // guardar también como borrador al generar
+  const usuario = usuarioActual();
+  const usuarios = leerUsuarios();
+  usuarios[usuario].borradorCV = datos;
+  guardarUsuarios(usuarios);
+
+  generarPDFConEstilo(datos);
+  mostrarMensaje(msg, 'PDF descargado como CV_' + datos.nombre.replace(/\s+/g, '_') + '.pdf', 'ok');
+});
+
+/* ---------- generación de PDF con diseño de barra lateral (estilo plantilla) ---------- */
+function generarPDFConEstilo(datos){
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+
+  const PAG_ANCHO = 595.28;
+  const PAG_ALTO = 841.89;
+  const ANCHO_BARRA = 200;
+
+  // paleta tomada de la plantilla de referencia
+  const azulMarino = [27, 51, 84];
+  const azulMedio = [58, 96, 140];
+  const grisTexto = [95, 108, 122];
+  const tinta = [40, 50, 62];
+  const blanco = [255, 255, 255];
+
+  const MARGEN_BARRA = 26;
+  const ANCHO_UTIL_BARRA = ANCHO_BARRA - MARGEN_BARRA * 2;
+  const MARGEN_CONT_X = ANCHO_BARRA + 34;
+  const ANCHO_UTIL_CONT = PAG_ANCHO - MARGEN_CONT_X - 40;
+
+  let paginaActual = 1;
+
+  function pintarFondoBarra(){
+    doc.setFillColor(...azulMarino);
+    doc.rect(0, 0, ANCHO_BARRA, PAG_ALTO, 'F');
+  }
+  pintarFondoBarra();
+
+  function nuevaPagina(){
+    doc.addPage();
+    paginaActual++;
+    pintarFondoBarra();
+  }
+
+  function detectarFormatoImagen(dataUrl){
+    if(!dataUrl) return null;
+    const m = /^data:image\/(png|jpe?g|webp);/i.exec(dataUrl);
+    if(!m) return null;
+    const tipo = m[1].toLowerCase();
+    if(tipo === 'png') return 'PNG';
+    if(tipo === 'webp') return 'WEBP';
+    return 'JPEG';
+  }
+
+  /* ================= BARRA LATERAL ================= */
+  let yB = 40;
+
+  if(datos.foto){
+    const formato = detectarFormatoImagen(datos.foto);
+    const r = 58;
+    const cx = ANCHO_BARRA / 2;
+    const cy = yB + r;
+    try{
+      doc.saveGraphicsState();
+      doc.ellipse(cx, cy, r, r, null);
+      doc.clip();
+      doc.discardPath();
+      doc.addImage(datos.foto, formato || 'JPEG', cx - r, cy - r, r * 2, r * 2);
+      doc.restoreGraphicsState();
+    }catch(e){ /* si la imagen falla, seguimos sin foto */ }
+    yB = cy + r + 22;
+  }else{
+    yB += 6;
+  }
+
+  if(datos.nacimiento){
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9);
+    doc.setTextColor(...blanco);
+    doc.text(datos.nacimiento, MARGEN_BARRA, yB);
+    yB += 10;
+  }
+
+  function lineaDivisoriaBarra(){
+    doc.setDrawColor(...azulMedio);
+    doc.setLineWidth(1);
+    doc.line(MARGEN_BARRA, yB, ANCHO_BARRA - MARGEN_BARRA, yB);
+    yB += 16;
+  }
+  lineaDivisoriaBarra();
+
+  function saltoBarraSiHaceFalta(altura){
+    if(yB + altura > PAG_ALTO - 40){
+      nuevaPagina();
+      yB = 40;
+    }
+  }
+
+  function tituloBarra(texto){
+    saltoBarraSiHaceFalta(20);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.setTextColor(...blanco);
+    doc.text(texto.toUpperCase(), MARGEN_BARRA, yB);
+    yB += 14;
+  }
+
+  function parrafoBarra(texto, tamaño=9.3){
+    if(!texto) return;
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(tamaño);
+    doc.setTextColor(230, 236, 242);
+    const lineas = doc.splitTextToSize(texto, ANCHO_UTIL_BARRA);
+    saltoBarraSiHaceFalta(lineas.length * 12);
+    doc.text(lineas, MARGEN_BARRA, yB);
+    yB += lineas.length * 12 + 10;
+  }
+
+  function listaBarra(items){
+    items.forEach(item=>{
+      if(!item) return;
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9.3);
+      doc.setTextColor(230, 236, 242);
+      const lineas = doc.splitTextToSize('- ' + item, ANCHO_UTIL_BARRA);
+      saltoBarraSiHaceFalta(lineas.length * 12);
+      doc.text(lineas, MARGEN_BARRA, yB);
+      yB += lineas.length * 12 + 3;
+    });
+    yB += 8;
+  }
+
+  if(datos.resumen){
+    tituloBarra('Sobre mí');
+    parrafoBarra(datos.resumen);
+  }
+
+  if(datos.masInfo){
+    tituloBarra('Más información');
+    listaBarra(datos.masInfo.split('\n').map(s=>s.trim()).filter(Boolean));
+  }
+
+  const datosContacto = [
+    datos.telefono ? { etiqueta: 'Tel.', valor: datos.telefono } : null,
+    datos.email ? { etiqueta: 'Email', valor: datos.email } : null,
+    datos.ubicacion ? { etiqueta: 'Dirección', valor: datos.ubicacion } : null,
+    datos.web ? { etiqueta: 'Web', valor: datos.web } : null
+  ].filter(Boolean);
+
+  if(datosContacto.length){
+    tituloBarra('Contacto');
+    datosContacto.forEach(c=>{
+      doc.setFillColor(...blanco);
+      doc.circle(MARGEN_BARRA + 3, yB - 3, 2.4, 'F');
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.setTextColor(230, 236, 242);
+      const lineas = doc.splitTextToSize(c.valor, ANCHO_UTIL_BARRA - 12);
+      saltoBarraSiHaceFalta(lineas.length * 12);
+      doc.text(lineas, MARGEN_BARRA + 12, yB);
+      yB += lineas.length * 12 + 6;
+    });
+  }
+
+  /* ================= COLUMNA PRINCIPAL ================= */
+  let y = 56;
+  const xC = MARGEN_CONT_X;
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(24);
+  doc.setTextColor(...azulMarino);
+  doc.text(datos.nombre, xC, y);
+  y += 22;
+
+  if(datos.puesto){
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(13);
+    doc.setTextColor(...azulMedio);
+    doc.text(datos.puesto, xC, y);
+    y += 18;
+  }
+
+  y += 10;
+  doc.setDrawColor(...azulMarino);
+  doc.setLineWidth(1.2);
+  doc.line(xC, y, xC + ANCHO_UTIL_CONT, y);
+  y += 26;
+
+  function saltoContenidoSiHaceFalta(altura){
+    if(y + altura > PAG_ALTO - 40){
+      nuevaPagina();
+      y = 50;
+    }
+  }
+
+  function tituloSeccionContenido(texto){
+    saltoContenidoSiHaceFalta(22);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(12.5);
+    doc.setTextColor(...azulMedio);
+    doc.text(texto.toUpperCase(), xC, y);
+    y += 8;
+    doc.setDrawColor(...tinta);
+    doc.setLineWidth(0.6);
+    doc.line(xC, y, xC + ANCHO_UTIL_CONT, y);
+    y += 16;
+  }
+
+  function parrafoContenido(texto, tamaño=10){
+    if(!texto) return;
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(tamaño);
+    doc.setTextColor(...tinta);
+    const lineas = doc.splitTextToSize(texto, ANCHO_UTIL_CONT);
+    saltoContenidoSiHaceFalta(lineas.length * 13 + 4);
+    doc.text(lineas, xC, y);
+    y += lineas.length * 13 + 8;
+  }
+
+  if(datos.experiencias.some(e => e.puesto || e.empresa)){
+    tituloSeccionContenido('Experiencia laboral');
+    datos.experiencias.forEach(exp=>{
+      if(!exp.puesto && !exp.empresa) return;
+      saltoContenidoSiHaceFalta(30);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(11);
+      doc.setTextColor(...tinta);
+      doc.text(exp.puesto || '', xC, y);
+      const fechas = [exp.inicio, exp.fin].filter(Boolean).join(' — ');
+      if(fechas){
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(9);
+        doc.setTextColor(...grisTexto);
+        doc.text(fechas, xC + ANCHO_UTIL_CONT, y, { align: 'right' });
+      }
+      y += 13;
+      if(exp.empresa){
+        doc.setFont('helvetica', 'italic');
+        doc.setFontSize(10);
+        doc.setTextColor(...azulMedio);
+        doc.text(exp.empresa, xC, y);
+        y += 13;
+      }
+      parrafoContenido(exp.descripcion, 10);
+      y += 4;
+    });
+  }
+
+  if(datos.educaciones.some(e => e.titulo || e.centro)){
+    tituloSeccionContenido('Datos académicos');
+    datos.educaciones.forEach(edu=>{
+      if(!edu.titulo && !edu.centro) return;
+      saltoContenidoSiHaceFalta(28);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(11);
+      doc.setTextColor(...tinta);
+      doc.text(edu.titulo || '', xC, y);
+      const fechas = [edu.inicio, edu.fin].filter(Boolean).join(' — ');
+      if(fechas){
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(9);
+        doc.setTextColor(...grisTexto);
+        doc.text(fechas, xC + ANCHO_UTIL_CONT, y, { align: 'right' });
+      }
+      y += 13;
+      if(edu.centro){
+        doc.setFont('helvetica', 'italic');
+        doc.setFontSize(10);
+        doc.setTextColor(...azulMedio);
+        doc.text(edu.centro, xC, y);
+        y += 13;
+      }
+      y += 8;
+    });
+  }
+
+  // Programas / idiomas a dos columnas, como en la plantilla
+  if(datos.habilidades || datos.idiomas){
+    saltoContenidoSiHaceFalta(40);
+    const anchoColumna = (ANCHO_UTIL_CONT - 20) / 2;
+    const yInicioColumnas = y;
+    let yMaxColumnas = y;
+
+    if(datos.habilidades){
+      let yCol = yInicioColumnas;
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(11.5);
+      doc.setTextColor(...azulMedio);
+      doc.text('PROGRAMAS', xC, yCol);
+      yCol += 8;
+      doc.setDrawColor(...tinta);
+      doc.setLineWidth(0.6);
+      doc.line(xC, yCol, xC + anchoColumna, yCol);
+      yCol += 14;
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9.5);
+      doc.setTextColor(...tinta);
+      const items = datos.habilidades.split(',').map(s=>s.trim()).filter(Boolean);
+      items.forEach(item=>{
+        const lineas = doc.splitTextToSize('- ' + item, anchoColumna);
+        doc.text(lineas, xC, yCol);
+        yCol += lineas.length * 12;
+      });
+      yMaxColumnas = Math.max(yMaxColumnas, yCol);
+    }
+
+    if(datos.idiomas){
+      let yCol = yInicioColumnas;
+      const xCol2 = xC + anchoColumna + 20;
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(11.5);
+      doc.setTextColor(...azulMedio);
+      doc.text('IDIOMAS', xCol2, yCol);
+      yCol += 8;
+      doc.setDrawColor(...tinta);
+      doc.setLineWidth(0.6);
+      doc.line(xCol2, yCol, xCol2 + anchoColumna, yCol);
+      yCol += 14;
+      const items = datos.idiomas.split(',').map(s=>s.trim()).filter(Boolean);
+      items.forEach(item=>{
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(9.5);
+        doc.setTextColor(...tinta);
+        const lineas = doc.splitTextToSize(item, anchoColumna);
+        doc.text(lineas, xCol2, yCol);
+        yCol += lineas.length * 12;
+      });
+      yMaxColumnas = Math.max(yMaxColumnas, yCol);
+    }
+
+    y = yMaxColumnas + 10;
+  }
+
+  const nombreArchivo = 'CV_' + datos.nombre.replace(/\s+/g, '_') + '.pdf';
+  doc.save(nombreArchivo);
+}
+
+/* ---------- arranque del panel ---------- */
+(function iniciarPanel(){
+  const usuario = usuarioActual();
+  const usuarios = leerUsuarios();
+  const registro = usuarios[usuario];
+  if(!registro) return; // la guardia de sesión de arriba ya redirige
+  pintarCuentaSuperior(registro);
+  cargarPerfilEnFormulario(registro);
+  renderizarArchivos(registro);
+  cargarBorradorCV(registro);
+
+  if(window.google && google.accounts && google.accounts.id){
+    iniciarGoogleIdentity();
+  }else{
+    window.addEventListener('load', iniciarGoogleIdentity);
+  }
+})();
+</script>
+</body>
+</html>

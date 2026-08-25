@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Rincón CV · entrar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="hilo hilo-superior" aria-hidden="true"></div>
+
+<!-- ===================== AUTENTICACIÓN (pantalla completa) ===================== -->
+<div id="pantalla-auth" class="pantalla-auth">
+  <div class="cabecera-auth">
+    <h1 class="logo">Mi Rincón <span>CV</span></h1>
+    <p class="subtitulo">un taller sencillo para guardar y coser tu currículum</p>
+  </div>
+
+  <section id="seccion-auth" class="tarjeta tarjeta-auth">
+    <form id="form-login" class="formulario">
+      <label>Usuario
+        <input type="text" id="login-usuario" required autocomplete="username">
+      </label>
+      <label>Contraseña
+        <input type="password" id="login-clave" required autocomplete="current-password">
+      </label>
+      <p class="mensaje" id="login-mensaje"></p>
+      <button type="submit" class="btn btn-principal">Iniciar sesión</button>
+      <p class="enlace-cambio">¿No tienes cuenta? <button type="button" id="link-ir-registro" class="btn-enlace">Crear cuenta</button></p>
+    </form>
+
+    <form id="form-registro" class="formulario" hidden>
+      <label>Nombre para mostrar
+        <input type="text" id="registro-nombre" required>
+      </label>
+      <label>Usuario
+        <input type="text" id="registro-usuario" required autocomplete="username">
+      </label>
+      <label>Contraseña
+        <input type="password" id="registro-clave" required autocomplete="new-password">
+      </label>
+      <p class="mensaje" id="registro-mensaje"></p>
+      <button type="submit" class="btn btn-principal">Crear mi cuenta</button>
+      <p class="enlace-cambio">¿Ya tienes cuenta? <button type="button" id="link-ir-login" class="btn-enlace">Iniciar sesión</button></p>
+    </form>
+
+    <p class="nota-privacidad">Nota: esto guarda los datos solo en este navegador (localStorage), a modo de cuaderno personal. No es un sistema de autenticación seguro para producción. En el panel puedes vincular tu cuenta real de Google (OAuth de verdad, vía "Sign in with Google"); Google confirma el correo, no se envía ningún email desde esta web.</p>
+  </section>
+</div>
+
+<footer class="pie">
+  <p>hecho a mano, con hilo y azul cielo</p>
+</footer>
+
+<div class="hilo hilo-inferior" aria-hidden="true"></div>
+
+<script>
+/* =========================================================
+   Mi Rincón CV — pantalla de entrada
+   Solo se encarga de login / registro. Al entrar, redirige
+   a panel.html, que es donde vive el panel de monitoreo.
+   ========================================================= */
+
+const CLAVE_USUARIOS = 'cvartesano_usuarios';
+const CLAVE_SESION = 'cvartesano_sesion';
+
+/* ---------- almacenamiento ---------- */
+function leerUsuarios(){
+  try{ return JSON.parse(localStorage.getItem(CLAVE_USUARIOS)) || {}; }
+  catch(e){ return {}; }
+}
+function guardarUsuarios(usuarios){
+  localStorage.setItem(CLAVE_USUARIOS, JSON.stringify(usuarios));
+}
+function usuarioActual(){
+  return localStorage.getItem(CLAVE_SESION);
+}
+function establecerSesion(nombreUsuario){
+  localStorage.setItem(CLAVE_SESION, nombreUsuario);
+}
+
+/* hash muy simple, SOLO para no guardar la contraseña en texto plano
+   dentro de este cuaderno local. No sustituye un backend real. */
+function hashSimple(texto){
+  let h = 0;
+  for(let i=0;i<texto.length;i++){
+    h = (h << 5) - h + texto.charCodeAt(i);
+    h |= 0;
+  }
+  return String(h);
+}
+
+function usuarioVacio(nombreMostrado){
+  return {
+    nombreMostrado,
+    clave: '',
+    perfil: { nombre:'', email:'', telefono:'', ciudad:'', bio:'' },
+    archivos: [], // {id, nombre, tipo, tamaño, fechaISO, dataUrl}
+    borradorCV: null
+  };
+}
+
+function mostrarMensaje(el, texto, tipo){
+  el.textContent = texto;
+  el.className = 'mensaje' + (tipo ? ' ' + tipo : '');
+}
+
+/* ---------- alternar entre iniciar sesión y crear cuenta ---------- */
+function mostrarFormularioLogin(){
+  document.getElementById('form-login').hidden = false;
+  document.getElementById('form-registro').hidden = true;
+}
+function mostrarFormularioRegistro(){
+  document.getElementById('form-login').hidden = true;
+  document.getElementById('form-registro').hidden = false;
+}
+document.getElementById('link-ir-registro').addEventListener('click', mostrarFormularioRegistro);
+document.getElementById('link-ir-login').addEventListener('click', mostrarFormularioLogin);
+
+/* ---------- registro ---------- */
+document.getElementById('form-registro').addEventListener('submit', (e)=>{
+  e.preventDefault();
+  const nombreMostrado = document.getElementById('registro-nombre').value.trim();
+  const usuario = document.getElementById('registro-usuario').value.trim().toLowerCase();
+  const clave = document.getElementById('registro-clave').value;
+  const msg = document.getElementById('registro-mensaje');
+
+  if(!nombreMostrado || !usuario || !clave){
+    mostrarMensaje(msg, 'Rellena todos los campos.', 'error');
+    return;
+  }
+  const usuarios = leerUsuarios();
+  if(usuarios[usuario]){
+    mostrarMensaje(msg, 'Ese nombre de usuario ya existe.', 'error');
+    return;
+  }
+  const nuevo = usuarioVacio(nombreMostrado);
+  nuevo.clave = hashSimple(clave);
+  nuevo.perfil.nombre = nombreMostrado;
+  usuarios[usuario] = nuevo;
+  guardarUsuarios(usuarios);
+  establecerSesion(usuario);
+  mostrarMensaje(msg, '¡Cuenta creada! Entrando…', 'ok');
+  irAlPanel();
+});
+
+/* ---------- login ---------- */
+document.getElementById('form-login').addEventListener('submit', (e)=>{
+  e.preventDefault();
+  const usuario = document.getElementById('login-usuario').value.trim().toLowerCase();
+  const clave = document.getElementById('login-clave').value;
+  const msg = document.getElementById('login-mensaje');
+
+  const usuarios = leerUsuarios();
+  const registro = usuarios[usuario];
+  if(!registro || registro.clave !== hashSimple(clave)){
+    mostrarMensaje(msg, 'Usuario o contraseña incorrectos.', 'error');
+    return;
+  }
+  establecerSesion(usuario);
+  mostrarMensaje(msg, '', '');
+  irAlPanel();
+});
+
+function irAlPanel(){
+  window.location.href = 'panel.html';
+}
+
+/* ---------- arranque: si ya hay sesión, saltar directo al panel ---------- */
+(function iniciar(){
+  const usuario = usuarioActual();
+  const usuarios = leerUsuarios();
+  if(usuario && usuarios[usuario]){
+    irAlPanel();
+  }
+})();
+</script>
+</body>
+</html>
